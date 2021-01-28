@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Игорь](https://up.htmlacademy.ru/javascript/22/user/872125).
-* Наставник: `Неизвестно`.
+* Наставник: [Владислав Зубко](https://htmlacademy.ru/profile/whatislove).
 
 ---
 
