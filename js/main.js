@@ -18,4 +18,7 @@ const getRandomFractional = (min, max, afterComma) => {
   return Number(randomNumber.toFixed(afterComma));
 };
 
-export { getRandomInteger, getRandomFractional };
+const author = {
+  avatar: 'img/avatars/user0' + getRandomInteger(1, 8) + '.png',
+};
+
