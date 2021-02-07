@@ -23,23 +23,54 @@ const getRandomArrayElement = (elements) => {
   return elements[getRandomInteger(0, elements.length-1)];
 };
 
+//Функция, возвращающая массив случайной длины из определенных значений
+
+const getRandomArrayLength = (array) => {
+  return
+};
+
+
+
+const OFFER_HEADERS = [
+  'Только сегодня!',
+  'Акция!!!',
+  'Лучшее предложение!',
+
+];
 const TYPES_HOUSES = [
   'palace',
   'flat',
   'house',
   'bungalow',
 ];
+const CHECK_TIMES = [
+  '12:00',
+  '13:00',
+  '14:00',
+];
 
+const LIST_FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+
+]
 
 const author = {
   avatar: 'img/avatars/user0' + getRandomInteger(1, 8) + '.png',
 };
 
 const offer = {
-  title: 'Только сегодня!',
+  title: getRandomArrayElement(OFFER_HEADERS),
   adress: 'location.x + location.y',
   price: getRandomInteger(),
   type: getRandomArrayElement(TYPES_HOUSES),
-}
-
-
+  rooms: getRandomInteger(),
+  guests: getRandomInteger(),
+  checkin: getRandomArrayElement(CHECK_TIMES),
+  checkout: getRandomArrayElement(CHECK_TIMES),
+  feauters:
+};
