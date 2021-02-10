@@ -97,9 +97,12 @@ const offer = {
 };
 
 const createAds = () => {
-  return author + offer + location;
+  const poolingObjects = {
+    author, location, offer,
+  };
+  return poolingObjects;
 };
 
 const similarAdsNearby = new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAds());
 
-console.log(similarAdsNearby);
+export {similarAdsNearby}; // для eslint
