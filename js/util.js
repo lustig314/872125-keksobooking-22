@@ -39,9 +39,9 @@ const getShuffledItems = (items) => {
   return shuffledArray;
 };
 
-const getRandomArrayLength = (items) => {
+const getRandomItems = (items) => {
   const randomItems = getShuffledItems(items).slice(getRandomInteger(RANDOM_ITEMS_START_IDX, items.length - 1));
   return randomItems;
 };
 
-export { getRandomInteger, getRandomFractional, getRandomArrayElement, getRandomArrayLength };
+export { getRandomInteger, getRandomFractional, getRandomArrayElement, getRandomItems };

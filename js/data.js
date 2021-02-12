@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomFractional, getRandomArrayElement, getRandomArrayLength } from './util.js';
+import { getRandomInteger, getRandomFractional, getRandomArrayElement, getRandomItems } from './util.js';
 
 const MocksConfig = {
   USER: {
@@ -87,8 +87,12 @@ const createLocation = () => ({
     MocksConfig.PLACE.LOCATION.Y_COORDINATE.MAX_COUNT),
 });
 
-
-const createDescription = (title = MocksConfig.REQUEST.TITLE.OFFER_HEADERS, typeHouses = MocksConfig.REQUEST.TYPE.TYPES_HOUSES, roomsMin = MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MIN_COUNT, roomsMax = MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MAX_COUNT, guestsMin = MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MIN_COUNT, guestsMax = MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MAX_COUNT) => {
+const createDescription = (title = MocksConfig.REQUEST.TITLE.OFFER_HEADERS,
+  typeHouses = MocksConfig.REQUEST.TYPE.TYPES_HOUSES,
+  roomsMin = MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MIN_COUNT,
+  roomsMax = MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MAX_COUNT,
+  guestsMin = MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MIN_COUNT,
+  guestsMax = MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MAX_COUNT) => {
   return `${getRandomArrayElement(title)} Comfortable ${getRandomArrayElement(typeHouses)} with ${getRandomInteger(roomsMin, roomsMax)} rooms, which can accommodate ${getRandomInteger(guestsMin, guestsMax)} guests. At an attractive price: ${getRandomInteger()}.`;
 };
 
@@ -105,9 +109,9 @@ const createOffer = () => ({
     MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MAX_COUNT),
   checkin: getRandomArrayElement(MocksConfig.REQUEST.CHECK_TIMES),
   checkout: getRandomArrayElement(MocksConfig.REQUEST.CHECK_TIMES),
-  feauters: getRandomArrayLength(MocksConfig.REQUEST.LIST_FEATURES),
+  feauters: getRandomItems(MocksConfig.REQUEST.LIST_FEATURES),
   description: createDescription(),
-  photos: getRandomArrayLength(MocksConfig.REQUEST.PHOTOS_HOUSES),
+  photos: getRandomItems(MocksConfig.REQUEST.PHOTOS_HOUSES),
 });
 
 const createAd = () => {
@@ -119,6 +123,11 @@ const createAd = () => {
   return poolingObjects;
 };
 
-const similarAdsNearby = new Array(MocksConfig.SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
+const createAds = (count) => {
+  const similarAdsNearby = Array.from(new Array(count), () => createAd());
+  return similarAdsNearby;
+}
 
-export {similarAdsNearby}; // чтоб eslint не ругался
+const ads = createAds(MocksConfig.SIMILAR_ADS_COUNT);
+
+export { ads };
