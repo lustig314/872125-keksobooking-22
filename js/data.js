@@ -72,7 +72,6 @@ const MocksConfig = {
   SIMILAR_ADS_COUNT: 10,
 }
 
-
 const createAuthor = () => ({
   avatar: `img/avatars/user0${getRandomInteger(
     MocksConfig.USER.AVATAR.MIN_COUNT,
@@ -88,6 +87,11 @@ const createLocation = () => ({
     MocksConfig.PLACE.LOCATION.Y_COORDINATE.MAX_COUNT),
 });
 
+
+const createDescription = (title = MocksConfig.REQUEST.TITLE.OFFER_HEADERS, typeHouses = MocksConfig.REQUEST.TYPE.TYPES_HOUSES, roomsMin = MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MIN_COUNT, roomsMax = MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MAX_COUNT, guestsMin = MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MIN_COUNT, guestsMax = MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MAX_COUNT) => {
+  return `${getRandomArrayElement(title)} Comfortable ${getRandomArrayElement(typeHouses)} with ${getRandomInteger(roomsMin, roomsMax)} rooms, which can accommodate ${getRandomInteger(guestsMin, guestsMax)} guests. At an attractive price: ${getRandomInteger()}.`;
+};
+
 const createOffer = () => ({
   title: getRandomArrayElement(
     MocksConfig.REQUEST.TITLE.OFFER_HEADERS),
@@ -102,10 +106,9 @@ const createOffer = () => ({
   checkin: getRandomArrayElement(MocksConfig.REQUEST.CHECK_TIMES),
   checkout: getRandomArrayElement(MocksConfig.REQUEST.CHECK_TIMES),
   feauters: getRandomArrayLength(MocksConfig.REQUEST.LIST_FEATURES),
-  description: `${getRandomArrayElement(MocksConfig.REQUEST.TITLE.OFFER_HEADERS)} Comfortable ${getRandomArrayElement(MocksConfig.REQUEST.TYPE.TYPES_HOUSES)} with ${getRandomInteger(MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MIN_COUNT, MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MAX_COUNT)} rooms, which can accommodate ${getRandomInteger(MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MIN_COUNT,MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MAX_COUNT)} guests. At an attractive price: ${getRandomInteger()}.`,
+  description: createDescription(),
   photos: getRandomArrayLength(MocksConfig.REQUEST.PHOTOS_HOUSES),
 });
-
 
 const createAd = () => {
   const poolingObjects = {
@@ -118,8 +121,4 @@ const createAd = () => {
 
 const similarAdsNearby = new Array(MocksConfig.SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
 
-
-console.log(similarAdsNearby);
-
-
-
+export {similarAdsNearby}; // чтоб eslint не ругался
