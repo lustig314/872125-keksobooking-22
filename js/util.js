@@ -27,7 +27,7 @@ const getRandomFractional = (min, max, afterComma = SIGN_AFTER_COMMA) => {
   return Number(randomNumber.toFixed(afterComma));
 };
 
-// Функция, возвращающая случайный элемент массива
+// Функция, возвращающая случайный элемент массива.
 const getRandomArrayElement = (elements) => {
   return elements[getRandomInteger(0, elements.length - 1)];
 };
