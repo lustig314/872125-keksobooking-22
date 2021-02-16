@@ -69,7 +69,7 @@ const MocksConfig = {
     ],
   },
 
-  SIMILAR_ADS_COUNT: 10,
+  SIMILAR_ADS_COUNT: 1,
 }
 
 const createAuthor = () => ({
@@ -99,7 +99,8 @@ const createDescription = (title = MocksConfig.REQUEST.TITLE.OFFER_HEADERS,
 const createOffer = () => ({
   title: getRandomArrayElement(
     MocksConfig.REQUEST.TITLE.OFFER_HEADERS),
-  adress: createLocation(),
+  adress: `x: ${createLocation().x}, y: ${createLocation().y}`,
+  price: getRandomInteger(),
   type: getRandomArrayElement(
     MocksConfig.REQUEST.TYPE.TYPES_HOUSES),
   rooms: getRandomInteger(
@@ -131,3 +132,5 @@ const createAds = (count) => {
 const ads = createAds(MocksConfig.SIMILAR_ADS_COUNT);
 
 export { ads };
+export { createAuthor };
+export { createOffer };
