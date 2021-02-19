@@ -134,3 +134,4 @@ const ads = createAds(MocksConfig.SIMILAR_ADS_COUNT);
 export { ads };
 export { createAuthor };
 export { createOffer };
+export { MocksConfig };
