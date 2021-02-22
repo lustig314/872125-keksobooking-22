@@ -29,14 +29,7 @@ const MocksConfig = {
         'Best offer!',
       ],
     },
-    TYPE: {
-      TYPES_HOUSES: [
-        'palace',
-        'flat',
-        'house',
-        'bungalow',
-      ],
-    },
+
     ROOMS: {
       ROOMS_COUNT: {
         MIN_COUNT: 1,
@@ -61,6 +54,11 @@ const MocksConfig = {
       'washer',
       'elevator',
       'conditioner',
+    ],
+    DESCRIPTION: [
+      'Прекрасное место в центре Токио',
+      'Уютное гнездышко в спальном районе',
+      'Роскошное жилье с панорамным видом на город',
     ],
     PHOTOS_HOUSES: [
       'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
@@ -87,22 +85,12 @@ const createLocation = () => ({
     MocksConfig.PLACE.LOCATION.Y_COORDINATE.MAX_COUNT),
 });
 
-const createDescription = (title = MocksConfig.REQUEST.TITLE.OFFER_HEADERS,
-  typeHouses = MocksConfig.REQUEST.TYPE.TYPES_HOUSES,
-  roomsMin = MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MIN_COUNT,
-  roomsMax = MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MAX_COUNT,
-  guestsMin = MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MIN_COUNT,
-  guestsMax = MocksConfig.REQUEST.GUESTS.GUESTS_COUNT.MAX_COUNT) => {
-  return `${getRandomArrayElement(title)} Comfortable ${getRandomArrayElement(typeHouses)} with ${getRandomInteger(roomsMin, roomsMax)} rooms, which can accommodate ${getRandomInteger(guestsMin, guestsMax)} guests. At an attractive price: ${getRandomInteger()}.`;
-};
 
 const createOffer = () => ({
   title: getRandomArrayElement(
     MocksConfig.REQUEST.TITLE.OFFER_HEADERS),
   adress: `x: ${createLocation().x}, y: ${createLocation().y}`,
   price: getRandomInteger(),
-  type: getRandomArrayElement(
-    MocksConfig.REQUEST.TYPE.TYPES_HOUSES),
   rooms: getRandomInteger(
     MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MIN_COUNT,
     MocksConfig.REQUEST.ROOMS.ROOMS_COUNT.MAX_COUNT),
@@ -111,7 +99,8 @@ const createOffer = () => ({
   checkin: getRandomArrayElement(MocksConfig.REQUEST.CHECK_TIMES),
   checkout: getRandomArrayElement(MocksConfig.REQUEST.CHECK_TIMES),
   feauters: getRandomItems(MocksConfig.REQUEST.LIST_FEATURES),
-  description: createDescription(),
+  description: getRandomArrayElement(
+    MocksConfig.REQUEST.DESCRIPTION),
   photos: getRandomItems(MocksConfig.REQUEST.PHOTOS_HOUSES),
 });
 
