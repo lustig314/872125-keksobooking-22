@@ -16,7 +16,6 @@ const createLocation = () => ({
     MocksConfig.PLACE.LOCATION.Y_COORDINATE.MAX_COUNT),
 });
 
-
 const createOffer = () => ({
   title: getRandomArrayElement(
     MocksConfig.REQUEST.TITLE.OFFER_HEADERS),

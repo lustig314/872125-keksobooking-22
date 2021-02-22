@@ -31,7 +31,6 @@ const getAdsPhotos = (offer, cardElement) => {
 }
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const mapCanvas = document.querySelector('#map-canvas');
 const similarCardFragment = document.createDocumentFragment();
 
 ads.forEach(({author, offer}) => {
@@ -50,7 +49,7 @@ ads.forEach(({author, offer}) => {
   similarCardFragment.appendChild(cardElement);
 });
 
-mapCanvas.appendChild(similarCardFragment);
+
 
 
 
