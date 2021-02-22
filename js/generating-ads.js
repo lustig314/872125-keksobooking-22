@@ -1,19 +1,5 @@
 import { ads } from './data.js';
-import { getRandomArrayElement } from './util.js';
-
-const HomeType = {
-  FLAT: 'flat',
-  BUNGALOW: 'bungalow',
-  HOUSE: 'house',
-  PALACE: 'palace',
-};
-
-const homeTypeToReadable = {
-  [HomeType.FLAT]: 'Квартира',
-  [HomeType.BUNGALOW]: 'Бунгало',
-  [HomeType.HOUSE]: 'Дом',
-  [HomeType.PALACE]: 'Дворец',
-};
+import { homeTypeToReadable } from './common/maps.js'
 
 const getAdsFeauters = (offer, cardElement) => {
   const {feauters} = offer;
@@ -54,8 +40,7 @@ ads.forEach(({author, offer}) => {
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.adress;
   cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  const randomHouseType = getRandomArrayElement(Object.values(HomeType));
-  cardElement.querySelector('.popup__type').textContent = homeTypeToReadable[randomHouseType];
+  cardElement.querySelector('.popup__type').textContent = homeTypeToReadable[offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   getAdsFeauters(offer, cardElement);
