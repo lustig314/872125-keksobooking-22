@@ -1,3 +1,4 @@
+
 // Неактивное состояние формы
 const adForm = document.querySelector('.ad-form');
 const adFormFile = adForm.querySelector('#avatar')
@@ -17,3 +18,20 @@ mapFilter.forEach((filter) => {
   filter.setAttribute('disabled', 'disabled');
 });
 mapFeature.setAttribute('disabled', 'disabled');
+
+const activeState = () => {
+  // Активное состояние формы
+  adForm.classList.remove('ad-form--disabled');
+  adFormFile.removeAttribute('disabled');
+  adFormElements.forEach((element) => {
+    element.removeAttribute('disabled');
+  });
+  // Активное состояние фильтра
+  mapFilters.classList.remove('map__filters--disabled');
+  mapFilter.forEach((filter) => {
+    filter.removeAttribute('disabled');
+  });
+  mapFeature.removeAttribute('disabled');
+}
+
+export { activeState };
