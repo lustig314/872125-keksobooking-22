@@ -45,11 +45,9 @@ ads.forEach(({author, offer}) => {
   getAdsFeauters(offer, cardElement);
   cardElement.querySelector('.popup__description').textContent = offer.description;
   getAdsPhotos(offer, cardElement);
-
   similarCardFragment.appendChild(cardElement);
 });
 
 
 
-
-
+export { similarCardFragment, getAdsFeauters, getAdsPhotos };

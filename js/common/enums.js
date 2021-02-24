@@ -65,7 +65,7 @@ const MocksConfig = {
     ],
   },
 
-  SIMILAR_ADS_COUNT: 1,
+  SIMILAR_ADS_COUNT: 5,
 }
 
 const HomeType = {
