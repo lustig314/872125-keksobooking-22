@@ -1,2 +1,2 @@
-import './data.js';
-import './generating-ads.js';
+
+import './map.js';
