@@ -1,7 +1,7 @@
 import { homeTypeToReadable } from './common/maps.js';
 
 const getAdsFeauters = (offer, cardElement) => {
-  const {feauters} = offer;
+  const {features} = offer;
   const feautureList = cardElement.querySelector('.popup__features');
   const feautureEl = cardElement.querySelector('.popup__feature');
   const feautureEls = cardElement.querySelectorAll('.popup__feature');
@@ -10,7 +10,7 @@ const getAdsFeauters = (offer, cardElement) => {
     feautureList.removeChild(value);
   })
 
-  feauters.forEach((feauture) => {
+  features.forEach((feauture) => {
     const cloneFeautureEl = feautureEl.cloneNode(true);
     cloneFeautureEl.classList.add(`popup__feature--${feauture}`);
     feautureList.appendChild(cloneFeautureEl);

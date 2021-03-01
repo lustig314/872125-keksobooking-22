@@ -1,3 +1,6 @@
+import { setDefaultAddressInput } from './map.js'
+import { mainMarker } from './map.js';
+import { coordinatesConfig } from './common/enums.js';
 
 // Неактивное состояние формы
 const adForm = document.querySelector('.ad-form');
@@ -32,4 +35,21 @@ const activeState = () => {
   mapFeature.disabled = false;
 };
 
-export { activeState };
+// Исходное состояние формы
+
+const resetToDeafaultState = () => {
+  adForm.reset();
+  mapFilters.reset();
+  setDefaultAddressInput();
+  mainMarker.setLatLng(
+    {
+      lat: coordinatesConfig.DEFAULT_COORDINATES.lat,
+      lng: coordinatesConfig.DEFAULT_COORDINATES.lng,
+    },
+  )
+
+}
+
+
+
+export { activeState, resetToDeafaultState, adForm};
