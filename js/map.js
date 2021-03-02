@@ -3,7 +3,7 @@ import { activeState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
 import { SIMILAR_ADS_COUNT } from './common/enums.js'
 import { coordinatesConfig } from './common/enums.js'
-
+import { showAlert } from './user-form.js'
 
 
 
@@ -64,30 +64,40 @@ mainMarker.on('move', (evt) => {
 // Добавление обычных меток с попапами похожих объявлений
 
 fetch('https://22.javascript.pages.academy/keksobooking/data')
-  .then((response) => response.json())
-  .then((ads) => ads.slice(0, SIMILAR_ADS_COUNT))
-  .then((croppedAds) => {
-    croppedAds.forEach(({location, offer, author}) => {
-      const secondaryPinIcon = L.icon({
-        iconUrl: '../img/pin.svg',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-      const secondaryMarker = L.marker(
-        {
-          lat: location.lat,
-          lng: location.lng,
-        },
-        {
-          icon: secondaryPinIcon,
-        },
-      );
-      secondaryMarker
-        .addTo(map)
-        .bindPopup(
-          createCustomPopup(author, offer),
-        )
-    })
+  .then((response) => {
+    if (response.ok) {
+      response.json()
+        .then((ads) => ads.slice(0, SIMILAR_ADS_COUNT))
+        .then((croppedAds) => {
+          croppedAds.forEach(({location, offer, author}) => {
+            const secondaryPinIcon = L.icon({
+              iconUrl: '../img/pin.svg',
+              iconSize: [40, 40],
+              iconAnchor: [20, 40],
+            });
+            const secondaryMarker = L.marker(
+              {
+                lat: location.lat,
+                lng: location.lng,
+              },
+              {
+                icon: secondaryPinIcon,
+              },
+            );
+            secondaryMarker
+              .addTo(map)
+              .bindPopup(
+                createCustomPopup(author, offer),
+              )
+          })
+        })
+    } else {
+      showAlert('Данные о похожих объявлениях не были получены')
+    }
   })
+  .catch(() => {
+    showAlert('Данные о похожих объявлениях не были получены')
+  })
+
 
 export { setDefaultAddressInput, mainMarker }

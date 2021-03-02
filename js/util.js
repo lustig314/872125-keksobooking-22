@@ -44,4 +44,9 @@ const getRandomItems = (items) => {
   return randomItems;
 };
 
-export { getRandomInteger, getRandomFractional, getRandomArrayElement, getRandomItems };
+const isEscEvent = (evt) => {
+  return evt.key === ('Escape' || 'Esc');
+};
+
+
+export { getRandomInteger, getRandomFractional, getRandomArrayElement, getRandomItems, isEscEvent };
