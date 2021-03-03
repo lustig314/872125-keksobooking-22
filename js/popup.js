@@ -1,4 +1,17 @@
-import { homeTypeToReadable } from './common/maps.js';
+
+const HomeType = {
+  FLAT: 'flat',
+  BUNGALOW: 'bungalow',
+  HOUSE: 'house',
+  PALACE: 'palace',
+};
+
+const homeTypeToReadable = {
+  [HomeType.FLAT]: 'Квартира',
+  [HomeType.BUNGALOW]: 'Бунгало',
+  [HomeType.HOUSE]: 'Дом',
+  [HomeType.PALACE]: 'Дворец',
+};
 
 const getAdsFeauters = (offer, cardElement) => {
   const {features} = offer;

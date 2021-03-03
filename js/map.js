@@ -1,11 +1,14 @@
 /* global L:readonly */
 import { activeState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
-import { SIMILAR_ADS_COUNT } from './common/enums.js'
-import { coordinatesConfig } from './common/enums.js'
-import { showAlert } from './user-form.js'
 
-
+const coordinatesConfig = {
+  DEFAULT_COORDINATES: {
+    lat: 35.6895,
+    lng: 139.69171,
+  },
+  ROUNDING_COORDINATES: 5,
+};
 
 //Инициализация карты
 const map = L.map('map-canvas')
@@ -63,41 +66,29 @@ mainMarker.on('move', (evt) => {
 
 // Добавление обычных меток с попапами похожих объявлений
 
-fetch('https://22.javascript.pages.academy/keksobooking/data')
-  .then((response) => {
-    if (response.ok) {
-      response.json()
-        .then((ads) => ads.slice(0, SIMILAR_ADS_COUNT))
-        .then((croppedAds) => {
-          croppedAds.forEach(({location, offer, author}) => {
-            const secondaryPinIcon = L.icon({
-              iconUrl: '../img/pin.svg',
-              iconSize: [40, 40],
-              iconAnchor: [20, 40],
-            });
-            const secondaryMarker = L.marker(
-              {
-                lat: location.lat,
-                lng: location.lng,
-              },
-              {
-                icon: secondaryPinIcon,
-              },
-            );
-            secondaryMarker
-              .addTo(map)
-              .bindPopup(
-                createCustomPopup(author, offer),
-              )
-          })
-        })
-    } else {
-      showAlert('Данные о похожих объявлениях не были получены')
-    }
+const renderAdsOnMap = (ads) => {
+  ads.forEach(({location, offer, author}) => {
+    const secondaryPinIcon = L.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+    const secondaryMarker = L.marker(
+      {
+        lat: location.lat,
+        lng: location.lng,
+      },
+      {
+        icon: secondaryPinIcon,
+      },
+    );
+    secondaryMarker
+      .addTo(map)
+      .bindPopup(
+        createCustomPopup(author, offer),
+      )
   })
-  .catch(() => {
-    showAlert('Данные о похожих объявлениях не были получены')
-  })
+}
 
 
-export { setDefaultAddressInput, mainMarker }
+export { setDefaultAddressInput, mainMarker, renderAdsOnMap, coordinatesConfig  }

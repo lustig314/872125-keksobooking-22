@@ -1,7 +1,7 @@
 import { setDefaultAddressInput } from './map.js'
 import { mainMarker } from './map.js';
-import { coordinatesConfig } from './common/enums.js';
-import { showSendSuccess } from './user-modal.js';
+import { coordinatesConfig } from './map.js';
+import { showSendErrorOrSuccess } from './user-modal.js';
 // Неактивное состояние формы
 const adForm = document.querySelector('.ad-form');
 const adFormFile = adForm.querySelector('#avatar');
@@ -39,7 +39,7 @@ const activeState = () => {
 
 const resetToDeafaultState = (isShowSend = true) => {
   if (isShowSend) {
-    showSendSuccess();
+    showSendErrorOrSuccess(false);
   }
   adForm.reset();
   mapFilters.reset();

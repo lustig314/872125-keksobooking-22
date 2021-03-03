@@ -1,6 +1,6 @@
-import { adForm, resetToDeafaultState } from './page-state.js'
-import { showSendError } from './user-modal.js'
-
+import { sendData } from './api.js';
+import { adForm, resetToDeafaultState } from './page-state.js';
+import { showSendErrorOrSuccess } from './user-modal.js'
 
 const showAlert = (message) => {
   const map = document.querySelector('#map-canvas')
@@ -19,38 +19,23 @@ const showAlert = (message) => {
   setTimeout(() => {
     alertContainer.remove();
   }, 5000);
-}
+};
+
+const resetButton = document.querySelector('.ad-form__reset');
+resetButton.addEventListener('click', () => resetToDeafaultState(false));
+
 
 const setUserFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
-    fetch(
-      'https://22.javascript.pages.academy/keksobooking', {
-        method: 'POST',
-        body: formData,
-      },
-    )
-      .then((response) => {
-        if (response.ok) {
-          onSuccess();
-        } else {
-          showSendError();
-        }
-      })
-      .catch(() => {
-        showSendError();
-      })
+    sendData(
+      () => onSuccess(),
+      () => showSendErrorOrSuccess(true),
+      new FormData(evt.target),
+    );
   });
 };
 
-setUserFormSubmit(resetToDeafaultState);
-
-const resetButton = document.querySelector('.ad-form__reset')
-resetButton.addEventListener('click', () => resetToDeafaultState(false))
-
-
-
-export { showAlert }
+export { showAlert, setUserFormSubmit }
 
 
