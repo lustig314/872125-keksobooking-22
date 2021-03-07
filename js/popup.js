@@ -13,6 +13,32 @@ const homeTypeToReadable = {
   [HomeType.PALACE]: 'Дворец',
 };
 
+
+/* const typeHousesInput = document.querySelector('#housing-type');
+const priceHousesInput = document.querySelector('#housing-price');
+const roomsHousesInput = document.querySelector('#housing-rooms');
+const guestsHousesInput = document.querySelector('#housing-guests');
+const featuresHousesInput = document.querySelector('#housing-features');
+
+
+const getAdRank = (offer) => {
+
+  let rank = 0;
+  if (offer.type === typeHousesInput.value)  {
+    rank += 1;
+  }
+  return rank;
+
+}
+
+const sortAds = (adA, adB) => {
+  const rankA = getAdRank(adA);
+  const rankB = getAdRank(adB);
+
+  return rankB - rankA;
+}
+ */
+
 const getAdsFeauters = (offer, cardElement) => {
   const {features} = offer;
   const feautureList = cardElement.querySelector('.popup__features');

@@ -8,6 +8,8 @@ import { getData } from './api.js'
 
 
 setUserFormSubmit(resetToDeafaultState);
-getData(renderAdsOnMap);
 
+
+
+getData(renderAdsOnMap);
 

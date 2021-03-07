@@ -1,17 +1,14 @@
 
 import { showAlert } from './user-form.js'
 
-const SIMILAR_ADS_COUNT = 7;
+
 
 const getData = (onSuccess) => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
     .then((response) => {
       if (response.ok) {
         response.json()
-          .then((ads) => ads.slice(0, SIMILAR_ADS_COUNT))
-          .then((croppedAds) => {
-            onSuccess(croppedAds)
-          })
+          .then((ads) => onSuccess(ads))
       } else {
         showAlert('Данные о похожих объявлениях не были получены')
       }
