@@ -55,9 +55,8 @@ addressInput.setAttribute('readonly', 'readonly');
 const markerLatitude = mainMarker._latlng.lat;
 const markerLongitude = mainMarker._latlng.lng;
 const setDefaultAddressInput = () => {
-  return addressInput.value = `${markerLatitude.toFixed(ROUNDING_COORDINATES)},
-  ${markerLongitude.toFixed(ROUNDING_COORDINATES)}`
-}
+  return addressInput.value = `${markerLatitude.toFixed(ROUNDING_COORDINATES)}, ${markerLongitude.toFixed(ROUNDING_COORDINATES)}`
+};
 setDefaultAddressInput();
 
 mainMarker.on('move', (evt) => {
@@ -95,7 +94,7 @@ const renderAdsOnMap = (ads) => {
           createCustomPopup(author, offer),
         )
     })
-}
+};
 
 
-export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES }
+export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES };

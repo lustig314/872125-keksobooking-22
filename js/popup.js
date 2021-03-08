@@ -1,10 +1,5 @@
 
-const HomeType = {
-  FLAT: 'flat',
-  BUNGALOW: 'bungalow',
-  HOUSE: 'house',
-  PALACE: 'palace',
-};
+import { HomeType } from './common/enums.js';
 
 const homeTypeToReadable = {
   [HomeType.FLAT]: 'Квартира',
@@ -14,17 +9,17 @@ const homeTypeToReadable = {
 };
 
 
-/* const typeHousesInput = document.querySelector('#housing-type');
-const priceHousesInput = document.querySelector('#housing-price');
-const roomsHousesInput = document.querySelector('#housing-rooms');
-const guestsHousesInput = document.querySelector('#housing-guests');
-const featuresHousesInput = document.querySelector('#housing-features');
+/* const typeHousesFilterInput = document.querySelector('#housing-type');
+const priceHousesFilterInput = document.querySelector('#housing-price');
+const roomsHousesFilterInput = document.querySelector('#housing-rooms');
+const guestsHousesFilterInput = document.querySelector('#housing-guests');
+const featuresHousesFilterInput = document.querySelector('#housing-features');
 
 
 const getAdRank = (offer) => {
 
   let rank = 0;
-  if (offer.type === typeHousesInput.value)  {
+  if (offer.type === typeHousesFilterInput.value)  {
     rank += 1;
   }
   return rank;
@@ -47,7 +42,7 @@ const getAdsFeauters = (offer, cardElement) => {
 
   feautureEls.forEach((value) => {
     feautureList.removeChild(value);
-  })
+  });
 
   features.forEach((feauture) => {
     const cloneFeautureEl = feautureEl.cloneNode(true);
@@ -65,8 +60,8 @@ const getAdsPhotos = (offer, cardElement) => {
     const clonePhotoEl = photoEl.cloneNode(true);
     clonePhotoEl.src = photo;
     photosList.appendChild(clonePhotoEl);
-  })
-}
+  });
+};
 
 const createCustomPopup = (author, offer) => {
   const balloonTemplate = document.querySelector('#card').content.querySelector('.popup');

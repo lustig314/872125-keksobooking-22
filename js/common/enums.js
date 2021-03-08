@@ -2,4 +2,11 @@ const keyboardKeys = {
   ESC: ('Escape' || 'Esc'),
 }
 
-export {keyboardKeys}
+const HomeType = {
+  FLAT: 'flat',
+  BUNGALOW: 'bungalow',
+  HOUSE: 'house',
+  PALACE: 'palace',
+};
+
+export { keyboardKeys, HomeType }

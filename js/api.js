@@ -1,7 +1,5 @@
 
-import { showAlert } from './user-form.js'
-
-
+import { showAlert } from './user-form.js';
 
 const getData = (onSuccess) => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')

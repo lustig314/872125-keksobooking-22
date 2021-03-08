@@ -1,8 +1,18 @@
 import { sendData } from './api.js';
 import { adForm, resetToDeafaultState } from './page-state.js';
-import { showSendErrorOrSuccess } from './user-modal.js'
-import { showAlert } from './util.js'
-/* import { typeHousesInput } from './popup.js' */
+import { showSendErrorOrSuccess } from './user-modal.js';
+import { showAlert } from './util.js';
+import { HomeType } from './common/enums.js'
+
+/* import { typeHousesFilterInput } from './popup.js' */
+
+const minPriceHomeType = {
+  [HomeType.BUNGALOW]: 0,
+  [HomeType.FLAT]: 1000,
+  [HomeType.HOUSE]: 5000,
+  [HomeType.PALACE]: 10000,
+};
+
 
 const setUserFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
@@ -21,6 +31,30 @@ resetButton.addEventListener('click', (evt) => {
   resetToDeafaultState(false);
 });
 
+// Функция зависимости цены от выбранного типа жилья
+
+const typeHousesInput = document.querySelector('#type');
+const priceInput = document.querySelector('#price');
+
+
+typeHousesInput.addEventListener('input', () => {
+  const currentHomeTypePrice = minPriceHomeType[typeHousesInput.value];
+  priceInput.placeholder = currentHomeTypePrice;
+  priceInput.setAttribute('min', currentHomeTypePrice);
+})
+
+// Функция зависимости времени заезда и выезда
+
+const timeInInput = adForm.querySelector('#timein');
+const timeOutInput = adForm.querySelector('#timeout');
+
+timeInInput.addEventListener('input', () => {
+  timeOutInput.value = timeInInput.value;
+});
+
+timeOutInput.addEventListener('input', () => {
+  timeInInput.value = timeOutInput.value;
+});
 
 
 /*
@@ -30,27 +64,9 @@ const setTypeHousesChange = (cb) => {
   })
 }
 
-
 export { setTypeHousesChange }
 
  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export { showAlert, setUserFormSubmit }
 

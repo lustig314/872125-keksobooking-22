@@ -55,4 +55,4 @@ const resetToDeafaultState = (isShowSend = true) => {
 }
 
 
-export { activeState, resetToDeafaultState, adForm};
+export { activeState, resetToDeafaultState, adForm };
