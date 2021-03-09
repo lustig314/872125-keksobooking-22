@@ -1,7 +1,8 @@
 import { setDefaultAddressInput } from './map.js'
 import { mainMarker } from './map.js';
-import { coordinatesConfig } from './map.js';
+import { DEFAULT_COORDINATES } from './map.js';
 import { showSendErrorOrSuccess } from './user-modal.js';
+
 // Неактивное состояние формы
 const adForm = document.querySelector('.ad-form');
 const adFormFile = adForm.querySelector('#avatar');
@@ -46,12 +47,12 @@ const resetToDeafaultState = (isShowSend = true) => {
   setDefaultAddressInput();
   mainMarker.setLatLng(
     {
-      lat: coordinatesConfig.DEFAULT_COORDINATES.lat,
-      lng: coordinatesConfig.DEFAULT_COORDINATES.lng,
+      lat: DEFAULT_COORDINATES.lat,
+      lng: DEFAULT_COORDINATES.lng,
     },
   )
 
 }
 
 
-export { activeState, resetToDeafaultState, adForm};
+export { activeState, resetToDeafaultState, adForm };

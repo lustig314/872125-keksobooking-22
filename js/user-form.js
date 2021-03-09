@@ -1,28 +1,17 @@
 import { sendData } from './api.js';
 import { adForm, resetToDeafaultState } from './page-state.js';
-import { showSendErrorOrSuccess } from './user-modal.js'
+import { showSendErrorOrSuccess } from './user-modal.js';
+import { showAlert } from './util.js';
+import { HomeType } from './common/enums.js'
 
-const showAlert = (message) => {
-  const map = document.querySelector('#map-canvas')
-  const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 1000;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '20px 40px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
-  alertContainer.textContent = message;
-  map.append(alertContainer);
-  setTimeout(() => {
-    alertContainer.remove();
-  }, 5000);
+/* import { typeHousesFilterInput } from './popup.js' */
+
+const minPriceHomeTypeToReadable = {
+  [HomeType.BUNGALOW]: 0,
+  [HomeType.FLAT]: 1000,
+  [HomeType.HOUSE]: 5000,
+  [HomeType.PALACE]: 10000,
 };
-
-const resetButton = document.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', () => resetToDeafaultState(false));
 
 
 const setUserFormSubmit = (onSuccess) => {
@@ -35,6 +24,49 @@ const setUserFormSubmit = (onSuccess) => {
     );
   });
 };
+
+const resetButton = document.querySelector('.ad-form__reset');
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetToDeafaultState(false);
+});
+
+// Функция зависимости цены от выбранного типа жилья
+
+const typeHousesInput = document.querySelector('#type');
+const priceInput = document.querySelector('#price');
+
+
+typeHousesInput.addEventListener('input', () => {
+  const currentHomeTypePrice = minPriceHomeTypeToReadable[typeHousesInput.value];
+  priceInput.placeholder = currentHomeTypePrice;
+  priceInput.min = currentHomeTypePrice;
+})
+
+// Функция зависимости времени заезда и выезда
+
+const timeInInput = adForm.querySelector('#timein');
+const timeOutInput = adForm.querySelector('#timeout');
+
+timeInInput.addEventListener('input', () => {
+  timeOutInput.value = timeInInput.value;
+});
+
+timeOutInput.addEventListener('input', () => {
+  timeInInput.value = timeOutInput.value;
+});
+
+
+/*
+const setTypeHousesChange = (cb) => {
+  typeHousesInput.addEventListener('input', () => {
+    cb();
+  })
+}
+
+export { setTypeHousesChange }
+
+ */
 
 export { showAlert, setUserFormSubmit }
 
