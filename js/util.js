@@ -1,5 +1,5 @@
 
-import {keyboardKeys} from './common/enums.js';
+import {KeyboardKey} from './common/enums.js';
 
 const ALERT_SHOW_TIME = 5000;
 
@@ -23,7 +23,7 @@ const showAlert = (message) => {
 };
 
 const isEscEvent = (evt) => {
-  return evt.key === keyboardKeys.ESC;
+  return evt.key === KeyboardKey.ESC;
 };
 
 export { isEscEvent, showAlert };

@@ -6,7 +6,7 @@ import { HomeType } from './common/enums.js'
 
 /* import { typeHousesFilterInput } from './popup.js' */
 
-const minPriceHomeType = {
+const minPriceHomeTypeToReadable = {
   [HomeType.BUNGALOW]: 0,
   [HomeType.FLAT]: 1000,
   [HomeType.HOUSE]: 5000,
@@ -38,9 +38,9 @@ const priceInput = document.querySelector('#price');
 
 
 typeHousesInput.addEventListener('input', () => {
-  const currentHomeTypePrice = minPriceHomeType[typeHousesInput.value];
+  const currentHomeTypePrice = minPriceHomeTypeToReadable[typeHousesInput.value];
   priceInput.placeholder = currentHomeTypePrice;
-  priceInput.setAttribute('min', currentHomeTypePrice);
+  priceInput.min = currentHomeTypePrice;
 })
 
 // Функция зависимости времени заезда и выезда

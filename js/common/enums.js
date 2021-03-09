@@ -1,5 +1,5 @@
-const keyboardKeys = {
-  ESC: ('Escape' || 'Esc'),
+const KeyboardKey = {
+  ESC: 'Escape',
 }
 
 const HomeType = {
@@ -9,4 +9,4 @@ const HomeType = {
   PALACE: 'palace',
 };
 
-export { keyboardKeys, HomeType }
+export { KeyboardKey, HomeType }
