@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { adForm, resetToDeafaultState } from './page-state.js';
+import { adForm, resetToDeafaultState, toggleNodesDisabled } from './page-state.js';
 import { showSendErrorOrSuccess } from './user-modal.js';
 import { showAlert } from './util.js';
 import { HomeType } from './common/enums.js'
@@ -82,35 +82,31 @@ const roomNumberInput = adForm.querySelector('#room_number');
 const capacityInput = adForm.querySelector('#capacity');
 const capacityOptions = capacityInput.querySelectorAll('option');
 
-const removeDisabled = (elements) => {
-  elements.forEach((currentElement) => {
-    currentElement.removeAttribute('disabled');
-  });
-}
-
-const addDisabled = (element) => element.setAttribute('disabled', 'disabled');
+const CapacityOptionsArrays = {
+  ROOMS_NUMBER: {
+    ONE: [capacityOptions[0], capacityOptions[1], capacityOptions[3]],
+    TWO: [capacityOptions[0], capacityOptions[3]],
+    THREE: [capacityOptions[3]],
+    HUNDRED: [capacityOptions[0], capacityOptions[1], capacityOptions[2]],
+  },
+};
 
 roomNumberInput.addEventListener('input', () => {
   const roomNumberValue = roomNumberInput.value;
-
+  capacityInput.value = '1';
   if (roomNumberValue === '1') {
-    removeDisabled(capacityOptions);
-    addDisabled(capacityOptions[0]);
-    addDisabled(capacityOptions[1]);
-    addDisabled(capacityOptions[3]);
+    toggleNodesDisabled(capacityOptions, false);
+    toggleNodesDisabled(CapacityOptionsArrays.ROOMS_NUMBER.ONE, true);
   } else if (roomNumberValue === '2') {
-    removeDisabled(capacityOptions);
-    addDisabled(capacityOptions[0]);
-    addDisabled(capacityOptions[3]);
+    toggleNodesDisabled(capacityOptions, false);
+    toggleNodesDisabled(CapacityOptionsArrays.ROOMS_NUMBER.TWO, true);
   } else if (roomNumberValue === '3') {
-    removeDisabled(capacityOptions);
-    addDisabled(capacityOptions[3]);
+    toggleNodesDisabled(capacityOptions, false);
+    toggleNodesDisabled(CapacityOptionsArrays.ROOMS_NUMBER.THREE, true);
   } else {
-    removeDisabled(capacityOptions);
+    toggleNodesDisabled(capacityOptions, false);
     capacityInput.value = '0';
-    addDisabled(capacityOptions[0]);
-    addDisabled(capacityOptions[1]);
-    addDisabled(capacityOptions[2]);
+    toggleNodesDisabled(CapacityOptionsArrays.ROOMS_NUMBER.HUNDRED, true);
   }
 });
 
