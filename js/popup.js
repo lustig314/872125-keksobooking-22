@@ -8,7 +8,6 @@ const homeTypeToReadable = {
   [HomeType.PALACE]: 'Дворец',
 };
 
-
 /* const typeHousesFilterInput = document.querySelector('#housing-type');
 const priceHousesFilterInput = document.querySelector('#housing-price');
 const roomsHousesFilterInput = document.querySelector('#housing-rooms');
