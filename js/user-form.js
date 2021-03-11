@@ -1,13 +1,10 @@
 import { sendData } from './api.js';
-import { adForm, resetToDeafaultState, toggleNodesDisabled } from './page-state.js';
+import { adForm, resetToDeafaultState } from './page-state.js';
 import { showSendErrorOrSuccess } from './user-modal.js';
 import { showAlert } from './util.js';
 import { HomeType } from './common/enums.js'
 
 /* import { typeHousesFilterInput } from './popup.js' */
-
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
 
 const homeTypeToPrice = {
   [HomeType.BUNGALOW]: 0,
@@ -83,37 +80,6 @@ roomNumberInput.addEventListener('input', () => {
 capacityInput.addEventListener('input', () => {
   changeCapacity();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-const setTypeHousesChange = (cb) => {
-  typeHousesInput.addEventListener('input', () => {
-    cb();
-  })
-}
-
-export { setTypeHousesChange }
-
- */
 
 export { showAlert, setUserFormSubmit }
 
