@@ -58,57 +58,50 @@ timeOutInput.addEventListener('input', () => {
   timeInInput.value = timeOutInput.value;
 });
 
-// Валидация поля заголовка
-
-const titleInput = adForm.querySelector('#title')
-
-titleInput.addEventListener('input', () => {
-  const valueLength = titleInput.value.length;
-
-  if (valueLength < MIN_TITLE_LENGTH) {
-    titleInput.setCustomValidity(`Ещё ${MIN_TITLE_LENGTH - valueLength} симв.`);
-  } else if (valueLength > MAX_TITLE_LENGTH) {
-    titleInput.setCustomValidity(`Удалите лишние ${valueLength - MAX_TITLE_LENGTH} симв.`);
-  } else {
-    titleInput.setCustomValidity('');
-  }
-
-  titleInput.reportValidity();
-});
-
 // Функция зависимости мест от количества комнат
+
+
+const roomsToGuests = {
+  '1': [1],
+  '2': [1, 2],
+  '3': [1, 2, 3],
+  '100': [0],
+};
 
 const roomNumberInput = adForm.querySelector('#room_number');
 const capacityInput = adForm.querySelector('#capacity');
-const capacityOptions = capacityInput.querySelectorAll('option');
 
-const CapacityOptionsArrays = {
-  ROOMS_NUMBER: {
-    ONE: [capacityOptions[0], capacityOptions[1], capacityOptions[3]],
-    TWO: [capacityOptions[0], capacityOptions[3]],
-    THREE: [capacityOptions[3]],
-    HUNDRED: [capacityOptions[0], capacityOptions[1], capacityOptions[2]],
-  },
+const changeCapacity =  () => {
+  const roomGuests = roomsToGuests[roomNumberInput.value];
+  const isAllow = roomGuests.includes(Number(capacityInput.value));
+  capacityInput.setCustomValidity(isAllow ? '' : 'Cлишком много людей для такого типа помещения.');
 };
 
 roomNumberInput.addEventListener('input', () => {
-  const roomNumberValue = roomNumberInput.value;
-  capacityInput.value = '1';
-  if (roomNumberValue === '1') {
-    toggleNodesDisabled(capacityOptions, false);
-    toggleNodesDisabled(CapacityOptionsArrays.ROOMS_NUMBER.ONE, true);
-  } else if (roomNumberValue === '2') {
-    toggleNodesDisabled(capacityOptions, false);
-    toggleNodesDisabled(CapacityOptionsArrays.ROOMS_NUMBER.TWO, true);
-  } else if (roomNumberValue === '3') {
-    toggleNodesDisabled(capacityOptions, false);
-    toggleNodesDisabled(CapacityOptionsArrays.ROOMS_NUMBER.THREE, true);
-  } else {
-    toggleNodesDisabled(capacityOptions, false);
-    capacityInput.value = '0';
-    toggleNodesDisabled(CapacityOptionsArrays.ROOMS_NUMBER.HUNDRED, true);
-  }
+  changeCapacity();
 });
+capacityInput.addEventListener('input', () => {
+  changeCapacity();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
