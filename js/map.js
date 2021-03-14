@@ -67,10 +67,13 @@ mainMarker.on('move', (evt) => {
 
 // Добавление обычных меток с попапами похожих объявлений
 
-const renderAdsOnMap = (ads) => {
-  ads
-  /*.slice()
-    .sort(sortAds) */
+
+const renderAdsOnMap = (ads, typeHouses = false) => {
+  let filterAds = ads;
+  if (typeHouses) {
+    filterAds = ads.filter(ad => ad.offer.type.includes(typeHouses))
+  }
+  filterAds
     .slice(0, SIMILAR_ADS_COUNT)
     .forEach(({location, offer, author}) => {
       const secondaryPinIcon = L.icon({
@@ -95,6 +98,12 @@ const renderAdsOnMap = (ads) => {
         )
     })
 };
+
+
+const typeHousesFilterInput = document.querySelector('#housing-type');
+const typeHousesValue = typeHousesFilterInput.value;
+typeHousesFilterInput.addEventListener('input', renderAdsOnMap.bind(null, (null, typeHousesValue)));
+
 
 
 export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES };
