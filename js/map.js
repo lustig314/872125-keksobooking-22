@@ -1,7 +1,7 @@
 /* global L:readonly */
 import { activeState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
-
+import { getData } from './api.js'
 
 const DEFAULT_COORDINATES = {
   lat: 35.6895,
@@ -66,7 +66,7 @@ mainMarker.on('move', (evt) => {
 });
 
 // Добавление обычных меток с попапами похожих объявлений
-
+const markers = L.layerGroup().addTo(map);
 
 const renderAdsOnMap = (ads, typeHouses = false) => {
   let filterAds = ads;
@@ -92,17 +92,25 @@ const renderAdsOnMap = (ads, typeHouses = false) => {
       );
 
       secondaryMarker
-        .addTo(map)
+        .addTo(markers)
         .bindPopup(
           createCustomPopup(author, offer),
         )
     })
 };
 
+getData(renderAdsOnMap);
 
 const typeHousesFilterInput = document.querySelector('#housing-type');
-const typeHousesValue = typeHousesFilterInput.value;
-typeHousesFilterInput.addEventListener('input', renderAdsOnMap.bind(null, (null, typeHousesValue)));
+getData((ads) => {
+  typeHousesFilterInput.addEventListener('change', ({target}) => {
+    if (target.value === 'any') {
+      getData(renderAdsOnMap);
+    }
+    markers.clearLayers()
+    renderAdsOnMap(ads, target.value);
+  })
+});
 
 
 
