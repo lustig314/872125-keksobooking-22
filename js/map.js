@@ -68,12 +68,8 @@ mainMarker.on('move', (evt) => {
 // Добавление обычных меток с попапами похожих объявлений
 const markers = L.layerGroup().addTo(map);
 
-const renderAdsOnMap = (ads, typeHouses = false) => {
-  let filterAds = ads;
-  if (typeHouses) {
-    filterAds = ads.filter(ad => ad.offer.type.includes(typeHouses))
-  }
-  filterAds
+const renderAdsOnMap = (ads) => {
+  ads
     .slice(0, SIMILAR_ADS_COUNT)
     .forEach(({location, offer, author}) => {
       const secondaryPinIcon = L.icon({
@@ -99,9 +95,26 @@ const renderAdsOnMap = (ads, typeHouses = false) => {
     })
 };
 
-getData(renderAdsOnMap);
+let localAds= []
 
-const typeHousesFilterInput = document.querySelector('#housing-type');
+const getFilteredAds = (ads) => {
+  let filteredAds = ads.filter(ad => ad.offer.type.includes('houses'));
+  return filteredAds;
+}
+
+const initMap = async () => {
+  localAds = await getData();
+  console.log(localAds)
+  let filteredAds = localAds.filter(ad => ad.offer.type.includes('houses'));
+  console.log(filteredAds)
+  renderAdsOnMap(filteredAds)
+}
+
+initMap()
+
+
+
+/* const typeHousesFilterInput = document.querySelector('#housing-type');
 getData((ads) => {
   typeHousesFilterInput.addEventListener('change', ({target}) => {
     if (target.value === 'any') {
@@ -110,7 +123,20 @@ getData((ads) => {
     markers.clearLayers()
     renderAdsOnMap(ads, target.value);
   })
-});
+}); */
+
+/* const initMap = async () => {
+  getData()
+    .then((ads) => {
+      localAds.push(...ads);
+    });
+} */
+
+
+
+/* let filteredAds = localAds.filter(ad => ad.offer.type.includes('houses'));
+ */
+
 
 
 
