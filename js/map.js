@@ -3,6 +3,7 @@ import { activeState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
 import { getData } from './api.js'
 import { showAlert } from './user-form.js';
+import { getFilteredAds } from './map-filter.js';
 
 const DEFAULT_COORDINATES = {
   lat: 35.6895,
@@ -10,8 +11,9 @@ const DEFAULT_COORDINATES = {
 };
 
 const ROUNDING_COORDINATES = 5;
-
 const SIMILAR_ADS_COUNT = 10;
+const localAds = []
+
 
 //Инициализация карты
 const map = L.map('map-canvas')
@@ -96,16 +98,6 @@ const renderAdsOnMap = (ads) => {
     })
 };
 
-const getFilteredAds = (ads, typeHouses) => {
-  let filteredAds = ads;
-  if (typeHouses) {
-    filteredAds = ads.filter(ad => ad.offer.type.includes(typeHouses));
-  }
-  return filteredAds;
-}
-
-let localAds = []
-
 const initMap = () => {
   getData()
     .then((ads) => {
@@ -132,6 +124,4 @@ typeHousesFilterInput.addEventListener('change', ({target}) => {
 
 })
 
-initMap()
-
-export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES };
+export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES, initMap };
