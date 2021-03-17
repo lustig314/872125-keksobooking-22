@@ -2,6 +2,7 @@
 import { activeState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
 import { getData } from './api.js'
+import { showAlert } from './user-form.js';
 
 const DEFAULT_COORDINATES = {
   lat: 35.6895,
@@ -95,49 +96,42 @@ const renderAdsOnMap = (ads) => {
     })
 };
 
-let localAds= []
-
-const getFilteredAds = (ads) => {
-  let filteredAds = ads.filter(ad => ad.offer.type.includes('houses'));
+const getFilteredAds = (ads, typeHouses) => {
+  let filteredAds = ads;
+  if (typeHouses) {
+    filteredAds = ads.filter(ad => ad.offer.type.includes(typeHouses));
+  }
   return filteredAds;
 }
 
-const initMap = async () => {
-  localAds = await getData();
-  console.log(localAds)
-  let filteredAds = localAds.filter(ad => ad.offer.type.includes('houses'));
-  console.log(filteredAds)
-  renderAdsOnMap(filteredAds)
-}
+let localAds = []
 
-initMap()
-
-
-
-/* const typeHousesFilterInput = document.querySelector('#housing-type');
-getData((ads) => {
-  typeHousesFilterInput.addEventListener('change', ({target}) => {
-    if (target.value === 'any') {
-      getData(renderAdsOnMap);
-    }
-    markers.clearLayers()
-    renderAdsOnMap(ads, target.value);
-  })
-}); */
-
-/* const initMap = async () => {
+const initMap = () => {
   getData()
     .then((ads) => {
       localAds.push(...ads);
-    });
-} */
+      const filteredAds = getFilteredAds(localAds)
+      renderAdsOnMap(filteredAds)
+    })
+    .catch(() => {
+      showAlert('Данные о похожих объявлениях не были получены')
+    })
+}
 
+const typeHousesFilterInput = document.querySelector('#housing-type');
 
+typeHousesFilterInput.addEventListener('change', ({target}) => {
+  const filteredAds = getFilteredAds(localAds, target.value);
 
-/* let filteredAds = localAds.filter(ad => ad.offer.type.includes('houses'));
- */
+  if (target.value === 'any') {
+    renderAdsOnMap(localAds)
+  } else {
+    markers.clearLayers();
+    renderAdsOnMap(filteredAds);
+  }
 
+})
 
-
+initMap()
 
 export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES };
