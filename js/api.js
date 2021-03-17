@@ -1,19 +1,13 @@
 
-import { showAlert } from './user-form.js';
-
-const getData = (onSuccess) => {
-  fetch('https://22.javascript.pages.academy/keksobooking/data')
-    .then((response) => {
-      if (response.ok) {
-        response.json()
-          .then((ads) => onSuccess(ads))
-      } else {
-        showAlert('Данные о похожих объявлениях не были получены')
+const getData = () => {
+  return fetch('https://22.javascript.pages.academy/keksobooking/data').then(
+    (response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText);
       }
-    })
-    .catch(() => {
-      showAlert('Данные о похожих объявлениях не были получены')
-    })
+      return response.json();
+    },
+  );
 };
 
 const sendData = (onSuccess, onFail, body) => {

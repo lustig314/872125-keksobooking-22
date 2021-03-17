@@ -1,7 +1,8 @@
 /* global L:readonly */
 import { activeState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
-
+import { getData } from './api.js'
+import { showAlert } from './user-form.js';
 
 const DEFAULT_COORDINATES = {
   lat: 35.6895,
@@ -66,11 +67,10 @@ mainMarker.on('move', (evt) => {
 });
 
 // Добавление обычных меток с попапами похожих объявлений
+const markers = L.layerGroup().addTo(map);
 
 const renderAdsOnMap = (ads) => {
   ads
-  /*.slice()
-    .sort(sortAds) */
     .slice(0, SIMILAR_ADS_COUNT)
     .forEach(({location, offer, author}) => {
       const secondaryPinIcon = L.icon({
@@ -89,12 +89,49 @@ const renderAdsOnMap = (ads) => {
       );
 
       secondaryMarker
-        .addTo(map)
+        .addTo(markers)
         .bindPopup(
           createCustomPopup(author, offer),
         )
     })
 };
 
+const getFilteredAds = (ads, typeHouses) => {
+  let filteredAds = ads;
+  if (typeHouses) {
+    filteredAds = ads.filter(ad => ad.offer.type.includes(typeHouses));
+  }
+  return filteredAds;
+}
+
+let localAds = []
+
+const initMap = () => {
+  getData()
+    .then((ads) => {
+      localAds.push(...ads);
+      const filteredAds = getFilteredAds(localAds)
+      renderAdsOnMap(filteredAds)
+    })
+    .catch(() => {
+      showAlert('Данные о похожих объявлениях не были получены')
+    })
+}
+
+const typeHousesFilterInput = document.querySelector('#housing-type');
+
+typeHousesFilterInput.addEventListener('change', ({target}) => {
+  const filteredAds = getFilteredAds(localAds, target.value);
+
+  if (target.value === 'any') {
+    renderAdsOnMap(localAds)
+  } else {
+    markers.clearLayers();
+    renderAdsOnMap(filteredAds);
+  }
+
+})
+
+initMap()
 
 export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES };

@@ -8,30 +8,6 @@ const homeTypeToReadable = {
   [HomeType.PALACE]: 'Дворец',
 };
 
-/* const typeHousesFilterInput = document.querySelector('#housing-type');
-const priceHousesFilterInput = document.querySelector('#housing-price');
-const roomsHousesFilterInput = document.querySelector('#housing-rooms');
-const guestsHousesFilterInput = document.querySelector('#housing-guests');
-const featuresHousesFilterInput = document.querySelector('#housing-features');
-
-
-const getAdRank = (offer) => {
-
-  let rank = 0;
-  if (offer.type === typeHousesFilterInput.value)  {
-    rank += 1;
-  }
-  return rank;
-
-}
-
-const sortAds = (adA, adB) => {
-  const rankA = getAdRank(adA);
-  const rankB = getAdRank(adB);
-
-  return rankB - rankA;
-}
- */
 
 const getAdsFeauters = (offer, cardElement) => {
   const {features} = offer;
