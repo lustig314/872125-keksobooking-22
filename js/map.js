@@ -3,7 +3,7 @@ import { activeState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
 import { getData } from './api.js'
 import { showAlert } from './user-form.js';
-import { getFilteredAds } from './map-filter.js';
+
 
 const DEFAULT_COORDINATES = {
   lat: 35.6895,
@@ -12,7 +12,7 @@ const DEFAULT_COORDINATES = {
 
 const ROUNDING_COORDINATES = 5;
 const SIMILAR_ADS_COUNT = 10;
-const localAds = []
+const localAds = [];
 
 
 //Инициализация карты
@@ -68,9 +68,9 @@ mainMarker.on('move', (evt) => {
   addressInput.value = `${latitude.toFixed(ROUNDING_COORDINATES)}, ${longitude.toFixed(ROUNDING_COORDINATES)}`
 });
 
-// Добавление обычных меток с попапами похожих объявлений
 const markers = L.layerGroup().addTo(map);
 
+// Рендер меток на карту
 const renderAdsOnMap = (ads) => {
   ads
     .slice(0, SIMILAR_ADS_COUNT)
@@ -98,30 +98,102 @@ const renderAdsOnMap = (ads) => {
     })
 };
 
+
+const typeHousesFilterInput = document.querySelector('#housing-type');
+const pricesFilterInput = document.querySelector('#housing-price');
+const roomsFilterInput = document.querySelector('#housing-rooms');
+const guestsFilterInput = document.querySelector('#housing-guests');
+
+
+const priceFilterValues = {
+  LOW: 10000,
+  HIGH: 50000,
+};
+
+
+const validationTypeToFunction = {
+  checkType: function (ad) {
+    const valueType = typeHousesFilterInput.value;
+    return (ad.offer.type === valueType || valueType === 'any')
+  },
+
+  checkPrice: function (ad) {
+    const valuePrices = pricesFilterInput.value;
+    switch (valuePrices) {
+      case 'any':
+        return true;
+      case 'low': {
+        return ad.offer.price <= priceFilterValues.LOW
+      }
+      case 'middle': {
+        return ad.offer.price > priceFilterValues.LOW && ad.offer.price < priceFilterValues.HIGH;
+      }
+      case 'high': {
+        return ad.offer.price >= priceFilterValues.HIGH;
+      }
+      default:
+        return false;
+    }
+  },
+
+  checkRoomsNumber: function (ad) {
+    const valueRooms = roomsFilterInput.value;
+    return (ad.offer.rooms === Number(valueRooms) || valueRooms === 'any');
+  },
+  checkGuestsNumber: function (ad) {
+    const valueGuests = guestsFilterInput.value;
+    return (ad.offer.rooms === Number(valueGuests) || valueGuests === 'any');
+  },
+
+}
+
+const getFilteredAds = (ads) => {
+  const filteredAds = ads.filter((adData) => {
+    const isSuitable = Object.keys(validationTypeToFunction).every((key) => {
+      const currentValidation = validationTypeToFunction[key];
+
+      return currentValidation(adData);
+    });
+
+    return isSuitable;
+  });
+
+  return filteredAds;
+};
+
+
+const updatePins = () => {
+  markers.clearLayers();
+  const filteredOffers = getFilteredAds(localAds);
+  renderAdsOnMap(filteredOffers);
+};
+
+const onChangeForm = () => {
+  updatePins();
+};
+
+const filterHouses = document.querySelector('.map__filters')
+
+filterHouses.addEventListener('change', onChangeForm);
+
+
+
+// Инициализация карты
 const initMap = () => {
   getData()
     .then((ads) => {
       localAds.push(...ads);
-      const filteredAds = getFilteredAds(localAds)
-      renderAdsOnMap(filteredAds)
+      renderAdsOnMap(localAds);
+      filterHouses.addEventListener('change', onChangeForm);
+
     })
     .catch(() => {
       showAlert('Данные о похожих объявлениях не были получены')
     })
 }
 
-const typeHousesFilterInput = document.querySelector('#housing-type');
 
-typeHousesFilterInput.addEventListener('change', ({target}) => {
-  const filteredAds = getFilteredAds(localAds, target.value);
 
-  if (target.value === 'any') {
-    renderAdsOnMap(localAds)
-  } else {
-    markers.clearLayers();
-    renderAdsOnMap(filteredAds);
-  }
 
-})
 
-export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES, initMap };
+export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES, initMap, localAds };
