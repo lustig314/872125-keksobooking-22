@@ -4,7 +4,6 @@ import { showSendErrorOrSuccess } from './user-modal.js';
 import { showAlert } from './util.js';
 import { HomeType } from './common/enums.js'
 
-/* import { typeHousesFilterInput } from './popup.js' */
 
 const homeTypeToPrice = {
   [HomeType.BUNGALOW]: 0,
