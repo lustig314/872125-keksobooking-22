@@ -5,13 +5,19 @@ import { showAlert } from './util.js';
 import { HomeType } from './common/enums.js'
 
 
-const homeTypeToPrice = {
+const HomeTypeToPrice = {
   [HomeType.BUNGALOW]: 0,
   [HomeType.FLAT]: 1000,
   [HomeType.HOUSE]: 5000,
   [HomeType.PALACE]: 10000,
 };
 
+const RoomsToGuests = {
+  '1': [1],
+  '2': [1, 2],
+  '3': [1, 2, 3],
+  '100': [0],
+};
 
 const setUserFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
@@ -36,7 +42,7 @@ const typeHousesInput = document.querySelector('#type');
 const priceInput = document.querySelector('#price');
 
 typeHousesInput.addEventListener('input', () => {
-  const currentHomeTypePrice = homeTypeToPrice[typeHousesInput.value];
+  const currentHomeTypePrice = HomeTypeToPrice[typeHousesInput.value];
   priceInput.placeholder = currentHomeTypePrice;
   priceInput.min = currentHomeTypePrice;
 })
@@ -56,19 +62,11 @@ timeOutInput.addEventListener('input', () => {
 
 // Функция зависимости мест от количества комнат
 
-
-const roomsToGuests = {
-  '1': [1],
-  '2': [1, 2],
-  '3': [1, 2, 3],
-  '100': [0],
-};
-
 const roomNumberInput = adForm.querySelector('#room_number');
 const capacityInput = adForm.querySelector('#capacity');
 
 const changeCapacity =  () => {
-  const roomGuests = roomsToGuests[roomNumberInput.value];
+  const roomGuests = RoomsToGuests[roomNumberInput.value];
   const isAllow = roomGuests.includes(Number(capacityInput.value));
   capacityInput.setCustomValidity(isAllow ? '' : 'Cлишком много людей для такого типа помещения.');
 };

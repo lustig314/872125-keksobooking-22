@@ -1,5 +1,5 @@
 
-import {KeyboardKey} from './common/enums.js';
+import { KeyboardKey } from './common/enums.js';
 
 const ALERT_SHOW_TIME = 5000;
 
@@ -27,28 +27,12 @@ const isEscEvent = (evt) => {
 };
 
 
-const debounce = (func, wait, immediate) => {
-  let timeout;
-
-  return function executedFunction() {
-    const context = this;
-    const args = arguments;
-
-    const later = function() {
-      timeout = null;
-      if (!immediate) func.apply(context, args);
-    };
-
-    const callNow = immediate && !timeout;
-
-    clearTimeout(timeout);
-
-    timeout = setTimeout(later, wait);
-
-    if (callNow) func.apply(context, args);
-  };
-};
-
-
+const debounce = (fn, delay) => {
+  let timeout = null
+  return (...args) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => fn.call(null, ...args), delay)
+  }
+}
 
 export { isEscEvent, showAlert, debounce };

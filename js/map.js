@@ -108,12 +108,9 @@ const updatePins = () => {
   renderAdsOnMap(filteredOffers);
 };
 
-
-
 const onChangeForm = () => {
   updatePins()
 };
-
 
 // Инициализация карты
 const initMap = () => {

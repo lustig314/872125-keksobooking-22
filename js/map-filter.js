@@ -5,6 +5,9 @@ const pricesFilterInput = mapFilters.querySelector('#housing-price');
 const roomsFilterInput = mapFilters.querySelector('#housing-rooms');
 const guestsFilterInput = mapFilters.querySelector('#housing-guests');
 
+
+const CONTROL_DEFAULT_VALUE = 'any';
+
 const priceTypeToRange = {
   'middle': {
     MIN: 10000,
@@ -19,9 +22,6 @@ const priceTypeToRange = {
     MAX: Infinity,
   },
 };
-
-const CONTROL_DEFAULT_VALUE = 'any';
-
 
 
 
@@ -39,11 +39,10 @@ const validationTypeToFunction = {
 
   checkPrice(ad) {
     const valuePrices = pricesFilterInput.value;
-    if (valuePrices === CONTROL_DEFAULT_VALUE) {
-      return true;
-    }
+    const filteringPrice = priceTypeToRange[valuePrices];
 
-    return ad.offer.price > priceTypeToRange[valuePrices].MIN && ad.offer.price < priceTypeToRange[valuePrices].MAX
+    return valuePrices === CONTROL_DEFAULT_VALUE || ad.offer.price > filteringPrice.MIN && ad.offer.price < filteringPrice.MAX
+
   },
 
   checkRoomsNumber(ad) {
@@ -57,15 +56,12 @@ const validationTypeToFunction = {
 
   checkFeatures(ad) {
     const checkedFeatures = mapFilters.querySelectorAll('.map__checkbox:checked');
-    let count = 0;
-    checkedFeatures.forEach((feature) => {
-      if (ad.offer.features.includes(feature.value))
-        count++;
-    })
-
-    return count === checkedFeatures.length;
+    return Array.from(checkedFeatures).every((checkbox) => {
+      return ad.offer.features.includes(checkbox.value);
+    });
   },
-}
+};
+
 
 const getFilteredAds = (ads) => {
   const filteredAds = ads.filter((adData) => {
@@ -81,4 +77,4 @@ const getFilteredAds = (ads) => {
 };
 
 
-export {getFilteredAds, mapFilters}
+export { getFilteredAds, mapFilters };
