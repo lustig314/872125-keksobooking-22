@@ -61,7 +61,6 @@ timeOutInput.addEventListener('input', () => {
 });
 
 // Функция зависимости мест от количества комнат
-
 const roomNumberInput = adForm.querySelector('#room_number');
 const capacityInput = adForm.querySelector('#capacity');
 
