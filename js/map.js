@@ -3,6 +3,8 @@ import { activeState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
 import { getData } from './api.js'
 import { showAlert } from './user-form.js';
+import { getFilteredAds, mapFilters } from './map-filter.js'
+import { debounce } from './util.js';
 
 const DEFAULT_COORDINATES = {
   lat: 35.6895,
@@ -10,8 +12,11 @@ const DEFAULT_COORDINATES = {
 };
 
 const ROUNDING_COORDINATES = 5;
-
 const SIMILAR_ADS_COUNT = 10;
+const DEBOUNCED_TIME = 500;
+
+const localAds = [];
+
 
 //Инициализация карты
 const map = L.map('map-canvas')
@@ -66,9 +71,9 @@ mainMarker.on('move', (evt) => {
   addressInput.value = `${latitude.toFixed(ROUNDING_COORDINATES)}, ${longitude.toFixed(ROUNDING_COORDINATES)}`
 });
 
-// Добавление обычных меток с попапами похожих объявлений
 const markers = L.layerGroup().addTo(map);
 
+// Рендер меток на карту
 const renderAdsOnMap = (ads) => {
   ads
     .slice(0, SIMILAR_ADS_COUNT)
@@ -96,42 +101,28 @@ const renderAdsOnMap = (ads) => {
     })
 };
 
-const getFilteredAds = (ads, typeHouses) => {
-  let filteredAds = ads;
-  if (typeHouses) {
-    filteredAds = ads.filter(ad => ad.offer.type.includes(typeHouses));
-  }
-  return filteredAds;
-}
 
-let localAds = []
+const updatePins = () => {
+  markers.clearLayers();
+  const filteredOffers = getFilteredAds(localAds);
+  renderAdsOnMap(filteredOffers);
+};
 
+const onChangeForm = () => {
+  updatePins()
+};
+
+// Инициализация карты
 const initMap = () => {
   getData()
     .then((ads) => {
       localAds.push(...ads);
-      const filteredAds = getFilteredAds(localAds)
-      renderAdsOnMap(filteredAds)
+      renderAdsOnMap(localAds);
+      mapFilters.addEventListener('change', debounce(onChangeForm, DEBOUNCED_TIME));
     })
     .catch(() => {
       showAlert('Данные о похожих объявлениях не были получены')
     })
 }
 
-const typeHousesFilterInput = document.querySelector('#housing-type');
-
-typeHousesFilterInput.addEventListener('change', ({target}) => {
-  const filteredAds = getFilteredAds(localAds, target.value);
-
-  if (target.value === 'any') {
-    renderAdsOnMap(localAds)
-  } else {
-    markers.clearLayers();
-    renderAdsOnMap(filteredAds);
-  }
-
-})
-
-initMap()
-
-export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES };
+export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES, initMap };

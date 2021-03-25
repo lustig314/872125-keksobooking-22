@@ -1,5 +1,5 @@
 
-import {KeyboardKey} from './common/enums.js';
+import { KeyboardKey } from './common/enums.js';
 
 const ALERT_SHOW_TIME = 5000;
 
@@ -26,4 +26,13 @@ const isEscEvent = (evt) => {
   return evt.key === KeyboardKey.ESC;
 };
 
-export { isEscEvent, showAlert };
+
+const debounce = (fn, delay) => {
+  let timeout = null
+  return (...args) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => fn.call(null, ...args), delay)
+  }
+}
+
+export { isEscEvent, showAlert, debounce };
