@@ -6,7 +6,7 @@ const makeRequest = ({ url, method, body, onSuccess, onFail }) => {
   })
     .then((response) => {
       if (!response.ok) {
-        new Error(response.statusText);
+        throw new Error(response.statusText);
       }
       return response.json();
     })
