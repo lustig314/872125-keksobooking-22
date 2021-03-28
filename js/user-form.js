@@ -1,4 +1,4 @@
-import { sendData } from './api.js';
+import { getOrSendData } from './api.js';
 import { adForm, resetToDeafaultState } from './page-state.js';
 import { showSendErrorOrSuccess } from './user-modal.js';
 import { showAlert } from './util.js';
@@ -22,10 +22,11 @@ const RoomsToGuests = {
 const setUserFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    sendData(
+    getOrSendData(
       () => onSuccess(),
       () => showSendErrorOrSuccess(true),
       new FormData(evt.target),
+      false,
     );
   });
 };

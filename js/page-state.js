@@ -1,7 +1,8 @@
-import { setDefaultAddressInput } from './map.js'
-import { mainMarker } from './map.js';
-import { DEFAULT_COORDINATES } from './map.js';
+import { setDefaultAddressInput, mainMarker, DEFAULT_COORDINATES, updatePins } from './map.js'
 import { showSendErrorOrSuccess } from './user-modal.js';
+
+
+const DEFAULT_PRICE_PALCEHOLDER = '1000';
 
 // Неактивное состояние формы
 const adForm = document.querySelector('.ad-form');
@@ -24,7 +25,7 @@ mapFilters.classList.add('map__filters--disabled');
 toggleNodesDisabled(mapFilter, true);
 mapFeature.disabled = true;
 
-const activeState = () => {
+const setActiveState = () => {
   // Активное состояние формы
   adForm.classList.remove('ad-form--disabled');
   adFormFile.disabled = false;
@@ -43,7 +44,10 @@ const resetToDeafaultState = (isShowSend = true) => {
     showSendErrorOrSuccess(false);
   }
   adForm.reset();
+  const priceInput = adForm.querySelector('#price');
+  priceInput.placeholder = DEFAULT_PRICE_PALCEHOLDER;
   mapFilters.reset();
+  updatePins();
   setDefaultAddressInput();
   mainMarker.setLatLng(
     {
@@ -55,4 +59,4 @@ const resetToDeafaultState = (isShowSend = true) => {
 }
 
 
-export { activeState, resetToDeafaultState, toggleNodesDisabled, adForm };
+export { setActiveState, resetToDeafaultState, toggleNodesDisabled, adForm };

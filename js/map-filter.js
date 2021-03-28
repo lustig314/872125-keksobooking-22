@@ -1,3 +1,5 @@
+import { SIMILAR_ADS_COUNT } from './map.js'
+
 
 const mapFilters = document.querySelector('.map__filters');
 const typeHousesFilterInput = mapFilters.querySelector('#housing-type');
@@ -62,19 +64,23 @@ const validationTypeToFunction = {
   },
 };
 
-
 const getFilteredAds = (ads) => {
-  const filteredAds = ads.filter((adData) => {
-    const isSuitable = Object.keys(validationTypeToFunction).every((key) => {
+  const filteredAds = [];
+  const validtionFunctionKeys = Object.keys(validationTypeToFunction);
+  for (let ad of ads) {
+    const isSuitable = validtionFunctionKeys.every((key) => {
       const currentValidation = validationTypeToFunction[key];
-      return currentValidation(adData);
+      return currentValidation(ad);
     });
 
-    return isSuitable;
-  });
-
-  return filteredAds;
+    if (isSuitable) {
+      filteredAds.push(ad)
+    }
+    if (filteredAds.length >= SIMILAR_ADS_COUNT) {
+      break
+    }
+  }
+  return filteredAds
 };
-
 
 export { getFilteredAds, mapFilters };
