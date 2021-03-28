@@ -9,4 +9,18 @@ const HomeType = {
   PALACE: 'palace',
 };
 
-export { KeyboardKey, HomeType }
+
+const UrlAddress = {
+  GET: 'https://22.javascript.pages.academy/keksobooking/data',
+  POST: 'https://22.javascript.pages.academy/keksobooking',
+}
+
+const HttpMethod = {
+  GET: 'GET',
+  POST: 'POST',
+}
+
+
+
+
+export { KeyboardKey, HomeType, UrlAddress, HttpMethod }

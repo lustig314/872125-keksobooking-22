@@ -1,11 +1,11 @@
 /* global L:readonly */
 import { setActiveState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
-import { getOrSendData } from './api.js'
+import { makeRequest } from './api.js'
 import { showAlert } from './user-form.js';
 import { getFilteredAds, mapFilters } from './map-filter.js'
 import { debounce } from './util.js';
-
+import { UrlAddress, HttpMethod } from './common/enums.js';
 
 const DEFAULT_COORDINATES = {
   lat: 35.6895,
@@ -117,12 +117,16 @@ const onChangeForm = () => {
 
 // Инициализация карты
 const initMap = () => {
-  getOrSendData()
-    .then((ads) => {
-      localAds.push(...ads);
-      renderAdsOnMap(localAds);
-      mapFilters.addEventListener('change', debounce(onChangeForm, DEBOUNCED_TIME));
-    })
+  makeRequest({
+    url: UrlAddress.GET,
+    method: HttpMethod.GET,
+    onSuccess: () => {},
+    onFail: () => {},
+  }).then((ads) => {
+    localAds.push(...ads);
+    renderAdsOnMap(localAds);
+    mapFilters.addEventListener('change', debounce(onChangeForm, DEBOUNCED_TIME));
+  })
     .catch(() => {
       showAlert('Данные о похожих объявлениях не были получены')
     })

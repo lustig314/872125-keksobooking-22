@@ -1,8 +1,8 @@
-import { getOrSendData } from './api.js';
+import { makeRequest } from './api.js';
 import { adForm, resetToDeafaultState } from './page-state.js';
 import { showSendErrorOrSuccess } from './user-modal.js';
 import { showAlert } from './util.js';
-import { HomeType } from './common/enums.js'
+import { HomeType, HttpMethod, UrlAddress } from './common/enums.js'
 
 
 const HomeTypeToPrice = {
@@ -22,12 +22,13 @@ const RoomsToGuests = {
 const setUserFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    getOrSendData(
-      () => onSuccess(),
-      () => showSendErrorOrSuccess(true),
-      new FormData(evt.target),
-      false,
-    );
+    makeRequest({
+      url: UrlAddress.POST,
+      method: HttpMethod.POST,
+      body: new FormData(evt.target),
+      onSuccess: () => {onSuccess()},
+      onFail: () => {showSendErrorOrSuccess()},
+    })
   });
 };
 
