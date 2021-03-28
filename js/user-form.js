@@ -1,8 +1,8 @@
-import { sendData } from './api.js';
+import { makeRequest } from './api.js';
 import { adForm, resetToDeafaultState } from './page-state.js';
 import { showSendErrorOrSuccess } from './user-modal.js';
 import { showAlert } from './util.js';
-import { HomeType } from './common/enums.js'
+import { HomeType, HttpMethod, UrlAddress } from './common/enums.js'
 
 
 const HomeTypeToPrice = {
@@ -22,11 +22,13 @@ const RoomsToGuests = {
 const setUserFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    sendData(
-      () => onSuccess(),
-      () => showSendErrorOrSuccess(true),
-      new FormData(evt.target),
-    );
+    makeRequest({
+      url: UrlAddress.POST_URL,
+      method: HttpMethod.POST,
+      body: new FormData(evt.target),
+      onSuccess: () => onSuccess(),
+      onFail: () => showSendErrorOrSuccess(true),
+    })
   });
 };
 
@@ -61,7 +63,6 @@ timeOutInput.addEventListener('input', () => {
 });
 
 // Функция зависимости мест от количества комнат
-
 const roomNumberInput = adForm.querySelector('#room_number');
 const capacityInput = adForm.querySelector('#capacity');
 

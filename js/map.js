@@ -1,16 +1,19 @@
 /* global L:readonly */
-import { activeState } from './page-state.js';
+import { setActiveState } from './page-state.js';
 import { createCustomPopup } from './popup.js';
-import { getData } from './api.js'
+import { makeRequest } from './api.js'
 import { showAlert } from './user-form.js';
 import { getFilteredAds, mapFilters } from './map-filter.js'
 import { debounce } from './util.js';
+import { UrlAddress, HttpMethod } from './common/enums.js';
 
 const DEFAULT_COORDINATES = {
   lat: 35.6895,
   lng: 139.69171,
 };
 
+const MAP_SRC = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const MAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const ROUNDING_COORDINATES = 5;
 const SIMILAR_ADS_COUNT = 10;
 const DEBOUNCED_TIME = 500;
@@ -21,7 +24,7 @@ const localAds = [];
 //Инициализация карты
 const map = L.map('map-canvas')
   .on('load', () => {
-    activeState();
+    setActiveState();
   })
   .setView({
     lat: DEFAULT_COORDINATES.lat,
@@ -29,9 +32,9 @@ const map = L.map('map-canvas')
   }, 12);
 
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  MAP_SRC,
   {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: MAP_COPYRIGHT,
   },
 ).addTo(map);
 
@@ -114,15 +117,18 @@ const onChangeForm = () => {
 
 // Инициализация карты
 const initMap = () => {
-  getData()
-    .then((ads) => {
+  makeRequest({
+    url: UrlAddress.GET_URL,
+    method: HttpMethod.GET,
+    onSuccess: (ads) => {
       localAds.push(...ads);
       renderAdsOnMap(localAds);
       mapFilters.addEventListener('change', debounce(onChangeForm, DEBOUNCED_TIME));
-    })
-    .catch(() => {
+    },
+    onFail: () => {
       showAlert('Данные о похожих объявлениях не были получены')
-    })
+    },
+  })
 }
 
-export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES, initMap };
+export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES, initMap, updatePins, SIMILAR_ADS_COUNT };
