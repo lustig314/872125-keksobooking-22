@@ -8,10 +8,11 @@ const showSendErrorOrSuccess = (error) => {
     if (isError) {
       const sendTemplate = document.querySelector('#error').content.querySelector('.error')
       return sendTemplate
+    } else {
+      const sendTemplate = document.querySelector('#success').content.querySelector('.success')
+      return sendTemplate;
     }
-    const sendTemplate = document.querySelector('#success').content.querySelector('.success')
-    return sendTemplate;
-  }
+  };
 
   const send = errorOrSuccess().cloneNode(true);
   send.style.zIndex = '1000';

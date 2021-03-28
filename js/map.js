@@ -118,18 +118,17 @@ const onChangeForm = () => {
 // Инициализация карты
 const initMap = () => {
   makeRequest({
-    url: UrlAddress.GET,
+    url: UrlAddress.GET_URL,
     method: HttpMethod.GET,
-    onSuccess: () => {},
-    onFail: () => {},
-  }).then((ads) => {
-    localAds.push(...ads);
-    renderAdsOnMap(localAds);
-    mapFilters.addEventListener('change', debounce(onChangeForm, DEBOUNCED_TIME));
-  })
-    .catch(() => {
+    onSuccess: (ads) => {
+      localAds.push(...ads);
+      renderAdsOnMap(localAds);
+      mapFilters.addEventListener('change', debounce(onChangeForm, DEBOUNCED_TIME));
+    },
+    onFail: () => {
       showAlert('Данные о похожих объявлениях не были получены')
-    })
+    },
+  })
 }
 
 export { setDefaultAddressInput, mainMarker, renderAdsOnMap, DEFAULT_COORDINATES, initMap, updatePins, SIMILAR_ADS_COUNT };

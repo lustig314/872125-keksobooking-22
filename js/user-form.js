@@ -23,11 +23,11 @@ const setUserFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     makeRequest({
-      url: UrlAddress.POST,
+      url: UrlAddress.POST_URL,
       method: HttpMethod.POST,
       body: new FormData(evt.target),
-      onSuccess: () => {onSuccess()},
-      onFail: () => {showSendErrorOrSuccess()},
+      onSuccess: () => onSuccess(),
+      onFail: () => showSendErrorOrSuccess(true),
     })
   });
 };
