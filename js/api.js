@@ -3,7 +3,6 @@ const UrlAddresses = {
   POST: 'https://22.javascript.pages.academy/keksobooking',
 }
 
-
 const getOrSendData = (onSuccess, onFail, body, isGet = true) => {
   if (isGet) {
     return fetch(UrlAddresses.GET).then(

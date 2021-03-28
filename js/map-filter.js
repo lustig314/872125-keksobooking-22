@@ -1,12 +1,10 @@
 import { SIMILAR_ADS_COUNT } from './map.js'
 
-
 const mapFilters = document.querySelector('.map__filters');
 const typeHousesFilterInput = mapFilters.querySelector('#housing-type');
 const pricesFilterInput = mapFilters.querySelector('#housing-price');
 const roomsFilterInput = mapFilters.querySelector('#housing-rooms');
 const guestsFilterInput = mapFilters.querySelector('#housing-guests');
-
 
 const CONTROL_DEFAULT_VALUE = 'any';
 
@@ -24,8 +22,6 @@ const priceTypeToRange = {
     MAX: Infinity,
   },
 };
-
-
 
 const checkIsControlInterrelation = (controlValue, checker) => {
   const isInterrelation = controlValue === CONTROL_DEFAULT_VALUE || checker;
