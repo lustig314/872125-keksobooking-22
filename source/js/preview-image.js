@@ -34,3 +34,6 @@ const setPreview = (input, img, isPreviewHousing = false) => {
 
 setPreview(fileChooserAvatar, previewAvatar);
 setPreview(fileChooserHousing, previewHousing, true);
+
+
+export { previewAvatar, previewHousing }

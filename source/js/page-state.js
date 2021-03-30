@@ -1,8 +1,10 @@
 import { setDefaultAddressInput, mainMarker, DEFAULT_COORDINATES, updatePins } from './map.js'
 import { showSendErrorOrSuccess } from './user-modal.js';
+import { previewAvatar, previewHousing } from './preview-image.js'
 
 
 const DEFAULT_PRICE_PALCEHOLDER = '1000';
+const DEFAULT_AVATAR_SRC = 'img/muffin-grey.svg';
 
 // Неактивное состояние формы
 const adForm = document.querySelector('.ad-form');
@@ -46,6 +48,9 @@ const resetToDeafaultState = (isShowSend = true) => {
   adForm.reset();
   const priceInput = adForm.querySelector('#price');
   priceInput.placeholder = DEFAULT_PRICE_PALCEHOLDER;
+  previewAvatar.src = DEFAULT_AVATAR_SRC;
+  previewHousing.style.removeProperty('background-image');
+  previewHousing.style.removeProperty('background-size');
   mapFilters.reset();
   updatePins();
   setDefaultAddressInput();
