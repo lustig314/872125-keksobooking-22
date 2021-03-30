@@ -1,5 +1,6 @@
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const DEFAULT_FILE_IDX = 0;
+const DEFAULT_PREVIEW_SIZE = '70px 70px';
 
 const fileChooserAvatar = document.querySelector('#avatar');
 const previewAvatar = document.querySelector('.ad-form-header__preview > img');
@@ -21,7 +22,7 @@ const setPreview = (input, img, isPreviewHousing = false) => {
       reader.addEventListener('load', () => {
         if (isPreviewHousing) {
           img.style.backgroundImage = `url(${reader.result})`;
-          img.style.backgroundSize = '70px 70px';
+          img.style.backgroundSize = DEFAULT_PREVIEW_SIZE;
         } else {
           img.src = reader.result;
         }
